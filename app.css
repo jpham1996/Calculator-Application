@@ -1,0 +1,126 @@
+
+#title {
+  text-align: center;
+}
+
+.calculator-container {
+  border: 1px solid black;
+  width: 30%;
+  margin: 0 auto;
+}
+
+.calculator-display {
+  background-color: black;
+  color: white;
+  height: 300px;
+  text-align: right;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+ 
+  
+  word-wrap: break-word;
+  word-break: break-all;
+
+}
+
+#current-operand {
+  font-size: 2rem; /* Font Size = 32 */
+}
+
+#previous-operand {
+  font-size: 2rem;  /* Font Size = 32 */
+}
+
+
+.calculator_keys {
+  display: grid;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  grid-template-columns: auto auto auto auto;
+  margin: 10px;
+ 
+}
+
+.grid-item {
+  border: 1px solid black;
+  font-size: 30px;
+  padding: 10px;
+  text-align: center;
+}
+
+#equal {
+  grid-row: span 3;
+}
+ 
+ @media screen and (min-width: 709px) and (max-width: 824px) {
+  .calculator-container {
+    width: 36%;
+  }
+} 
+
+@media screen and (min-width: 623px) and (max-width: 708px)  {
+  .calculator-container {
+    width: 40%;
+  }
+} 
+
+@media screen and (min-width: 569px) and (max-width: 622px) {
+  .calculator-container {
+    width: 44%;
+  }
+} 
+@media screen and (min-width: 523px) and (max-width: 568px)  {
+  .calculator-container {
+    width: 48%;
+  }
+} 
+
+@media screen and  (min-width: 502px) and (max-width: 522px)  {
+  .calculator-container {
+    width: 50%;
+  }
+} 
+
+@media screen and (min-width: 466px) and (max-width: 501px)  {
+  .calculator-container {
+    width: 54%;
+  }
+}  
+
+@media screen and (min-width: 435px) and (max-width: 465px)  {
+  .calculator-container {
+    width: 58%;
+  }
+}  
+
+@media screen and (min-width: 408px) and (max-width: 434px)  { 
+  .calculator-container {
+    width: 62%;
+  }
+}  
+
+@media screen and (min-width: 385px) and (max-width: 407px) { 
+  .calculator-container {
+    width: 66%;
+  }
+}  
+
+@media screen and (max-width: 384px) { 
+  .calculator-container {
+    width: 70%;
+  }
+}  
+
+
+
+
+
+
+
+
+
+
