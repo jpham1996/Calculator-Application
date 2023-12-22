@@ -8,17 +8,11 @@ const currentOperandTextElement = document.querySelector("#current-operand");
 const previousOperandTextElement = document.querySelector("#previous-operand");
 let currentOperand = "";
 let previousOperand = "";
-let operator = undefined; // declared without a value
-
-// Deletes the last digit of the number, even if one digit is present. Ex. 1
-function deleteOperand() {
-  currentOperand = currentOperand.toString().slice(0, -1);
-}
+let operator = undefined;
 
 function appendNumber(number) {
   if (number === "." && currentOperand.includes(".")) {
     // Cannot add another decimal if there is already one in the Number input
-    // Returns nothing
     return;
   }
   currentOperand = currentOperand.toString() + number.toString(); // Concatenates the strings (Ex. 5 + 5 = 55)
@@ -150,11 +144,5 @@ equalButton.addEventListener("click", function () {
 // Clears everything on the display (Number input) on the Calculator and updates the display
 clear.addEventListener("click", function () {
   clearDisplay();
-  updateDisplay();
-});
-
-// Deletes the last digit from the number string
-del.addEventListener("click", function () {
-  deleteOperand();
   updateDisplay();
 });

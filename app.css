@@ -24,6 +24,7 @@
 }
 
 #current-operand {
+  margin-left: 10px;
   font-size: 2rem;
 }
 
@@ -46,5 +47,5 @@
 }
 
 #equal {
-  grid-row: span 3;
+  grid-row: span 4;
 }
