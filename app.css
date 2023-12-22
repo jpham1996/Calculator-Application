@@ -13,12 +13,10 @@
   color: white;
   min-height: 300px;
   text-align: right;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
-
   word-wrap: break-word;
   word-break: break-all;
 }
@@ -47,5 +45,5 @@
 }
 
 #equal {
-  grid-row: span 4;
+  grid-row: span 3;
 }

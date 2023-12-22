@@ -1,21 +1,26 @@
+// DOM Selectors
 const numberButtons = document.querySelectorAll(".numbers");
 const operationButtons = document.querySelectorAll(".operator");
-const clear = document.querySelector("#clear");
+const clearButton = document.querySelector("#clear");
+const invertButton = document.querySelector("#invert");
 const equalButton = document.querySelector("#equal");
-const del = document.querySelector("#delete");
-
 const currentOperandTextElement = document.querySelector("#current-operand");
 const previousOperandTextElement = document.querySelector("#previous-operand");
+
 let currentOperand = "";
 let previousOperand = "";
+// Operator Variable not assigned a value;
 let operator = undefined;
 
 function appendNumber(number) {
+  // If currentOperand already has a decimal already, return nothing
   if (number === "." && currentOperand.includes(".")) {
-    // Cannot add another decimal if there is already one in the Number input
     return;
   }
-  currentOperand = currentOperand.toString() + number.toString(); // Concatenates the strings (Ex. 5 + 5 = 55)
+
+  currentOperand = currentOperand.toString() + number.toString();
+
+  console.log(currentOperand);
 }
 
 function chooseOperation(operation) {
@@ -24,47 +29,40 @@ function chooseOperation(operation) {
     return;
   }
 
-  // if previousOperand is not empty, do calculation via calculate function and keep doing the math, if equal button is not clicked on.
+  // if currentOperand and previousOperand are not empty, do calculation if equal button is not clicked on.
   if (previousOperand !== "") {
     calculate();
   }
 
-  operator = operation; // Reset operator
+  operator = operation;
   previousOperand = currentOperand;
-  currentOperand = ""; // Make currentOperand empty
+  currentOperand = "";
 }
 
 function calculate() {
   let calculation;
-  const previousOP = parseFloat(previousOperand); // Converts strings into a floating point number that accepts decimal places
-  const currentOP = parseFloat(currentOperand); // Converts strings into a floating point number that accepts decimal places
+  // Converts strings into a floating point number that accepts decimal places
+  const previousOP = parseFloat(previousOperand);
+  const currentOP = parseFloat(currentOperand);
 
   if (isNaN(previousOP) || isNaN(currentOP)) {
-    // If prevOP (previousOperand) and currentOP (currentOperand) are not a number, return nothing
     return;
   }
 
-  // Switch case for operator chosen
-  switch (operator) {
-    case "+":
-      calculation = previousOP + currentOP;
-      break;
-    case "-":
-      calculation = previousOP - currentOP;
-      break;
-    case "*":
-      calculation = previousOP * currentOP;
-      break;
-    case "/":
-      calculation = previousOP / currentOP;
-      break;
-    default:
-      return;
+  if (operator === "+") {
+    calculation = previousOP + currentOP;
+  } else if (operator === "-") {
+    calculation = previousOP - currentOP;
+  } else if (operator === "*") {
+    calculation = previousOP * currentOP;
+  } else if (operator === "/") {
+    calculation = previousOP / currentOP;
+  } else {
+    return;
   }
 
   // currentOperand becomes the output
-  currentOperand = calculation;
-
+  currentOperand = calculation.toString();
   // After calculation, operator is undefined and previousOperand is empty
   operator = undefined;
   previousOperand = "";
@@ -75,6 +73,19 @@ function clearDisplay() {
   currentOperand = "";
   previousOperand = "";
   operator = undefined;
+}
+
+// Converts currentOperand to a positive or negative number
+function invertOperandDisplay() {
+  if (currentOperand === "") {
+    return;
+  }
+
+  if (currentOperand > 0) {
+    currentOperand = "-" + currentOperand;
+  } else {
+    currentOperand = currentOperand * -1;
+  }
 }
 
 // Number format
@@ -88,9 +99,10 @@ function getDisplayNumber(number) {
     // If integer number is not a number, return empty string
     integerDisplay = "";
   } else {
+    // Number format in English
     integerDisplay = integerDigits.toLocaleString("en", {
-      // Number format in English
-      maximumFractionDigits: 0, // The maximum number of digits after the decimal separator
+      // The maximum number of digits after the decimal separator
+      maximumFractionDigits: 0,
     });
   }
 
@@ -104,10 +116,10 @@ function getDisplayNumber(number) {
 }
 
 function updateDisplay() {
-  currentOperandTextElement.innerText = getDisplayNumber(currentOperand); // currentOperand  gets updated on the display
+  currentOperandTextElement.innerText = getDisplayNumber(currentOperand);
 
+  // If operator has a assigned value
   if (operator != null) {
-    // If operator is found
     previousOperandTextElement.innerText = `${getDisplayNumber(
       previousOperand
     )} ${operator}`;
@@ -122,7 +134,7 @@ function updateDisplay() {
 // Loop through the Number Buttons (0-9) including the Decimal (.) and updates the display
 for (let i = 0; i < numberButtons.length; i++) {
   numberButtons[i].addEventListener("click", function () {
-    appendNumber(numberButtons[i].innerText); // Strings and Concatenates a number string
+    appendNumber(numberButtons[i].innerText);
     updateDisplay();
   });
 }
@@ -135,14 +147,19 @@ for (let i = 0; i < operationButtons.length; i++) {
   });
 }
 
-// Computes the operands depending on the operator used and updates the display
+// Computes the current and previous operands depending on the operator used and updates the display
 equalButton.addEventListener("click", function () {
   calculate();
   updateDisplay();
 });
 
 // Clears everything on the display (Number input) on the Calculator and updates the display
-clear.addEventListener("click", function () {
+clearButton.addEventListener("click", function () {
   clearDisplay();
+  updateDisplay();
+});
+
+invertButton.addEventListener("click", function () {
+  invertOperandDisplay();
   updateDisplay();
 });
