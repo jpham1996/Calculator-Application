@@ -4,6 +4,7 @@ const operationButtons = document.querySelectorAll(".operator");
 const clearButton = document.querySelector("#clear");
 const invertButton = document.querySelector("#invert");
 const equalButton = document.querySelector("#equal");
+const decimalButton = document.querySelector("#decimal");
 const currentOperandTextElement = document.querySelector("#current-operand");
 const previousOperandTextElement = document.querySelector("#previous-operand");
 
@@ -13,14 +14,24 @@ let previousOperand = "";
 let operator = undefined;
 
 function appendNumber(number) {
-  // If currentOperand already has a decimal already, return nothing
-  if (number === "." && currentOperand.includes(".")) {
+  if (currentOperand.length === 12) {
     return;
   }
 
-  currentOperand = currentOperand.toString() + number.toString();
+  currentOperand = currentOperand + number.toString();
+}
 
-  console.log(currentOperand);
+function appendDecimal(decimal) {
+  // If currentOperand already has a decimal already, return nothing
+  if (decimal === "." && currentOperand.includes(".")) {
+    return;
+  }
+
+  if (currentOperand.length === 0) {
+    currentOperand = currentOperand + "0.";
+  } else {
+    currentOperand = currentOperand + decimal.toString();
+  }
 }
 
 function chooseOperation(operation) {
@@ -61,7 +72,6 @@ function calculate() {
     return;
   }
 
-  // currentOperand becomes the output
   currentOperand = calculation.toString();
   // After calculation, operator is undefined and previousOperand is empty
   operator = undefined;
@@ -77,14 +87,14 @@ function clearDisplay() {
 
 // Converts currentOperand to a positive or negative number
 function invertOperandDisplay() {
-  if (currentOperand === "") {
+  if (currentOperand === "" || isNaN(currentOperand)) {
     return;
   }
 
   if (currentOperand > 0) {
     currentOperand = "-" + currentOperand;
   } else {
-    currentOperand = currentOperand * -1;
+    currentOperand = currentOperand.replace("-", "");
   }
 }
 
@@ -93,6 +103,7 @@ function getDisplayNumber(number) {
   const stringNumber = number.toString(); // Strings the number
   const integerDigits = parseFloat(stringNumber.split(".")[0]); // Gets the string number, and then converts it back to a float number
   const decimalDigits = stringNumber.split(".")[1]; // Gets the decimal piece of the string
+
   let integerDisplay;
 
   if (isNaN(integerDigits)) {
@@ -115,6 +126,7 @@ function getDisplayNumber(number) {
   }
 }
 
+// Updates the Calculator Display as the number and operator gets appended
 function updateDisplay() {
   currentOperandTextElement.innerText = getDisplayNumber(currentOperand);
 
@@ -131,7 +143,7 @@ function updateDisplay() {
 
 /* Event Listeners */
 
-// Loop through the Number Buttons (0-9) including the Decimal (.) and updates the display
+// Loop and appends the Number Buttons (0-9) and updates the display
 for (let i = 0; i < numberButtons.length; i++) {
   numberButtons[i].addEventListener("click", function () {
     appendNumber(numberButtons[i].innerText);
@@ -159,7 +171,14 @@ clearButton.addEventListener("click", function () {
   updateDisplay();
 });
 
+// Turns a positive number into a negative number and a negative number into a positive number
 invertButton.addEventListener("click", function () {
   invertOperandDisplay();
+  updateDisplay();
+});
+
+// Append Decimal Number and updates display
+decimalButton.addEventListener("click", function () {
+  appendDecimal(decimalButton.innerText);
   updateDisplay();
 });
